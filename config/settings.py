@@ -127,11 +127,11 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "simonwillisonblog",
+        "NAME": "keithschachtblog",
     },
     "dashboard": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "simonwillisonblog",
+        "NAME": "keithschachtblog",
         "OPTIONS": {
             "options": "-c default_transaction_read_only=on -c statement_timeout=3000"
         },
