@@ -2,6 +2,10 @@
 
 I'm experimenting with using this code to run my weblog.
 
+## Todo
+
+- [ ] Understand the cloudflare integration and re-enable static.*
+
 ## Commands
 
 * Recompile assets `python manage.py collectstatic`
