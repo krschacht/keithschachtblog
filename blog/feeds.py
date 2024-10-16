@@ -7,7 +7,7 @@ from blog.models import Entry, Blogmark, Quotation
 class Base(Feed):
     feed_type = Atom1Feed
     link = "/"
-    author_name = "Simon Willison"
+    author_name = "Keith Schacht"
 
     def __call__(self, request, *args, **kwargs):
         response = super(Base, self).__call__(request, *args, **kwargs)
@@ -21,7 +21,7 @@ class Base(Feed):
 
     def item_link(self, item):
         return (
-            "https://simonwillison.net"
+            "https://keithschacht.com"
             + item.get_absolute_url()
             + "#atom-%s" % self.ga_source
         )
@@ -42,7 +42,7 @@ class Base(Feed):
 
 
 class Entries(Base):
-    title = "Simon Willison's Weblog: Entries"
+    title = "Keith Schacht's Weblog: Entries"
     ga_source = "entries"
 
     def items(self):
@@ -60,7 +60,7 @@ class Entries(Base):
 
 
 class Blogmarks(Base):
-    title = "Simon Willison's Weblog: Blogmarks"
+    title = "Keith Schacht's Weblog: Blogmarks"
     description_template = "feeds/blogmark.html"
     ga_source = "blogmarks"
 
@@ -76,7 +76,7 @@ class Blogmarks(Base):
 
 
 class Everything(Base):
-    title = "Simon Willison's Weblog"
+    title = "Keith Schacht's Weblog"
     description_template = "feeds/everything.html"
     ga_source = "everything"
 
@@ -115,7 +115,7 @@ class SeriesFeed(Everything):
     ga_source = "series"
 
     def __init__(self, series):
-        self.title = "Simon Willison's Weblog: {}".format(series.title)
+        self.title = "Keith Schacht's Weblog: {}".format(series.title)
         self.series = series
 
     def items(self):
@@ -126,7 +126,7 @@ class EverythingTagged(Everything):
     ga_source = "tag"
 
     def __init__(self, title, items):
-        self.title = "Simon Willison's Weblog: {}".format(title)
+        self.title = "Keith Schacht's Weblog: {}".format(title)
         self._items = items
 
     def items(self):
@@ -141,7 +141,7 @@ def sitemap(request):
     for klass in (Entry, Blogmark, Quotation):
         for obj in klass.objects.only("slug", "created"):
             xml.append(
-                "<url><loc>https://simonwillison.net%s</loc></url>"
+                "<url><loc>https://keithschacht.com%s</loc></url>"
                 % obj.get_absolute_url()
             )
     xml.append("</urlset>")
