@@ -5,7 +5,6 @@
 {% block extrahead %}
 {{ block.super }}
 {{ entry.extra_head_html|default:""|safe }}
-<script async src="https://media.ethicalads.io/media/client/ethicalads.min.js"></script>
 {% endblock %}
 
 {% block card_title %}{{ entry.title|typography }}{% endblock %}
