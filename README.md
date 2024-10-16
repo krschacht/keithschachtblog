@@ -8,6 +8,7 @@ I'm experimenting with using this code to run my weblog.
 
 ## Commands
 
+* Create superuser `python manage.py createsuperuser`
 * Recompile assets `python manage.py collectstatic`
 * Start dev server `python manage.py runserver`
 
