@@ -212,7 +212,7 @@ class Entry(BaseModel):
         blank=True,
         null=True,
         help_text="""
-        Extra HTML to be included in the &lt;head&gt; for this entry
+        Extra HTML to be included in the &lt;head&gt; for this entry e.g. <a href='https://til.simonwillison.net/django/live-blog' target='_blank'>Live javascript</a>
     """.strip(),
     )
     custom_template = models.CharField(max_length=100, null=True, blank=True)
