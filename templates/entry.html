@@ -13,7 +13,13 @@
 
 {% block item_content %}
 <div data-permalink-context="{{ entry.get_absolute_url }}">
-<h2>{{ entry.title|typography }}</h2>
+<h2>
+    {% if entry.series and entry.series.title == "Today I Learned" %}
+      💡 TIL:
+    {% else %}
+     📄
+    {% endif %}
+{{ entry.title|typography }}</h2>
 <p class="mobile-date">{{ entry.created|date:"jS F Y" }}</p>
 
 {% include "_draft_warning.html" %}

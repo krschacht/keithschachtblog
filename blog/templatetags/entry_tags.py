@@ -267,3 +267,8 @@ def entry_footer(context, entry):
 def entry_footer_no_date(context, entry):
     context.update({"entry": entry, "showdate": False})
     return context
+
+@register.filter
+def strip_links(value):
+    stripped = re.sub(r'<a[^>]*>(.*?)</a>', r'\1', value)
+    return mark_safe(stripped)

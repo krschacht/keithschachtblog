@@ -13,15 +13,24 @@
 {% endif %}
 {% if item.type == "entry" %}
 <div class="entry segment" style="border-bottom: 0;">
-  <h3 style="margin-top: 0; margin-bottom: 0.7em; font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 19px;">📄 <a href="{{ item.obj.get_absolute_url }}" rel="bookmark">{{ item.obj.title|typography }}</a></h3>
+  <h3 style="margin-top: 0; margin-bottom: 0.7em; font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 19px;">
+    {% if item.obj.series and item.obj.series.title == "Today I Learned" %}
+     💡 <a href="{{ item.obj.get_absolute_url }}" rel="bookmark">TIL: {{ item.obj.title|typography }}</a></h3>
+    {% else %}
+     📄 <a href="{{ item.obj.get_absolute_url }}" rel="bookmark">{{ item.obj.title|typography }}</a></h3>
+    {% endif %}
   {% if item.obj.card_image %}
     <div class="card-container">
       <a href="{{ item.obj.get_absolute_url }}"><img src="{{ item.obj.card_image }}" alt="Visit {{ item.obj.title }}"></a>
     </div>
   {% endif %}
   <div>
-    {{ item.obj.body|split_cutoff|xhtml|remove_context_paragraph|first_paragraph|typography|xhtml2html }}
-    {% if item.obj.multi_paragraph %}<div style="font-size: 0.9em; text-align: center; margin-top: -0.5em; margin-bottom: 0.9em">... <a href="{{ item.obj.get_absolute_url }}">View more</a></div>{% endif %}
+    {% if item.obj.multi_paragraph %}
+      {{ item.obj.body|split_cutoff|xhtml|remove_context_paragraph|first_paragraph|strip_links|typography|xhtml2html }}
+      <div style="font-size: 0.9em; text-align: center; margin-top: -0.5em; margin-bottom: 0.9em">... <a href="{{ item.obj.get_absolute_url }}">View more</a></div>
+    {% else %}
+      {{ item.obj.body|split_cutoff|xhtml|remove_context_paragraph|first_paragraph|typography|xhtml2html }}
+    {% endif %}
   </div>
   <div class="entryFooter" style="text-align: right; border-top: 0; padding-top: 0; margin-top: 0.5em">
   {% if showdate %}{% entry_footer item.obj %}{% else %}{% entry_footer_no_date item.obj %}{% endif %}
