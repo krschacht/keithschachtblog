@@ -2,6 +2,11 @@
 
 I'm experimenting with using this code to run my weblog.
 
+## Commands
+
+* Recompile assets `python manage.py collectstatic`
+* Start dev server `python manage.py runserver`
+
 ## Search Engine
 
 This blog includes a built-in search engine. Here's how it works:

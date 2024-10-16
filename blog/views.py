@@ -83,7 +83,7 @@ def archive_item(request, year, month, day, slug):
             2006, 12, 1, 1, 1, 1, tzinfo=datetime.timezone.utc
         ):
             previously_hosted = (
-                "http://simon.incutio.com/archive/"
+                "http://incutio.com/archive/"
                 + obj.created.strftime("%Y/%m/%d/")
                 + obj.slug
             )

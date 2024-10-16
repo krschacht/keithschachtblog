@@ -25,7 +25,7 @@ handler404 = "blog.views.custom_404"
 
 def wellknown_webfinger(request):
     remote_url = (
-        "https://fedi.simonwillison.net/.well-known/webfinger?"
+        "https://fedi.net/.well-known/webfinger?"
         + request.META["QUERY_STRING"]
     )
     return proxy_view(request, remote_url)
@@ -33,23 +33,23 @@ def wellknown_webfinger(request):
 
 def wellknown_hostmeta(request):
     remote_url = (
-        "https://fedi.simonwillison.net/.well-known/host-meta?"
+        "https://fedi.net/.well-known/host-meta?"
         + request.META["QUERY_STRING"]
     )
     return proxy_view(request, remote_url)
 
 
 def wellknown_nodeinfo(request):
-    remote_url = "https://fedi.simonwillison.net/.well-known/nodeinfo"
+    remote_url = "https://fedi.net/.well-known/nodeinfo"
     return proxy_view(request, remote_url)
 
 
 def username_redirect(request):
-    return HttpResponseRedirect("https://fedi.simonwillison.net/@simon")
+    return HttpResponseRedirect("https://fedi.net/@simon")
 
 
 def newsletter_redirect(request):
-    return HttpResponseRedirect("https://simonw.substack.com/")
+    return HttpResponseRedirect("https://.substack.com/")
 
 
 def projects_redirect(request):
@@ -58,12 +58,12 @@ def projects_redirect(request):
     )
 
 
-FAVICON = open(os.path.join(settings.BASE_DIR, "static/favicon.ico"), "rb").read()
+FAVICON = open(os.path.join(settings.BASE_DIR, "static/favicon.png"), "rb").read()
 
 
 def static_redirect(request):
     return HttpResponsePermanentRedirect(
-        "http://static.simonwillison.net%s" % request.get_full_path()
+        "https://keithschacht.com%s" % request.get_full_path()
     )
 
 
@@ -87,7 +87,7 @@ User-agent: *
 Disallow: /admin/
 Disallow: /search/
 
-Sitemap: https://simonwillison.net/sitemap.xml
+Sitemap: https://keithschacht.com/sitemap.xml
 """
 
 
@@ -138,7 +138,7 @@ urlpatterns = [
     path(".well-known/webfinger", wellknown_webfinger),
     path(".well-known/host-meta", wellknown_hostmeta),
     path(".well-known/nodeinfo", wellknown_nodeinfo),
-    path("@simon", username_redirect),
+    path("@keithschacht", username_redirect),
     re_path(r"^newsletter/?$", newsletter_redirect),
     re_path(r"^projects/?$", projects_redirect),
     re_path(r"^versions/$", versions),

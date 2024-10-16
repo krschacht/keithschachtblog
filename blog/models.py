@@ -405,7 +405,7 @@ class Photoset(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return "http://www.flickr.com/photos/simon/sets/%s/" % self.flickr_id
+        return "http://www.flickr.com/photos/x/sets/%s/" % self.flickr_id
 
     def view_thumb(self):
         return '<a href="%s"><img src="%s" width="75" height="75" /></a>' % (

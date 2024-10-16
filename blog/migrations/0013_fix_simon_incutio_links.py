@@ -19,7 +19,7 @@ MONTHS_3_REV = {
 MONTHS_3_REV_REV = {value: key for key, value in list(MONTHS_3_REV.items())}
 
 url_re = re.compile(
-    r'"http://simon\.incutio\.com/archive/(\d{4})/(\d{2})/(\d{2})/(.*?)"'
+    r'"http://x\.incutio\.com/archive/(\d{4})/(\d{2})/(\d{2})/(.*?)"'
 )
 
 
@@ -45,7 +45,7 @@ def actually_fix_them(Entry):
                 entry.created.day,
                 entry.slug,
             )
-            print("Updated https://simonwillison.net{}".format(path))
+            print("Updated https://x.net{}".format(path))
 
 
 class Migration(migrations.Migration):
