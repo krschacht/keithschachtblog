@@ -13,24 +13,34 @@ entry_stripper = re.compile("^<entry>(.*?)</entry>$", re.DOTALL)
 def xhtml(xhtml):
     return XhtmlString(xhtml, contains_markup=True)
 
-
 class XhtmlString(object):
     def __init__(self, value, contains_markup=False):
         if isinstance(value, XhtmlString):
             self.et = value.et
         else:
             if not contains_markup:
-                # Handle strings like "this & that"
                 value = conditional_escape(value)
-            self.et = ElementTree.fromstring("<entry>%s</entry>" % value)
+
+            # Wrap HTML5 elements in CDATA to preserve them
+            value = re.sub(r'(<iframe.*?</iframe>)', lambda m: '<!--IFRAME--><![CDATA[{}]]><!--/IFRAME-->'.format(m.group(1)), value, flags=re.DOTALL)
+
+            try:
+                self.et = ElementTree.fromstring("<entry>%s</entry>" % value)
+            except ElementTree.ParseError:
+                # If parsing fails, treat the entire content as CDATA
+                self.et = ElementTree.fromstring("<entry><![CDATA[%s]]></entry>" % value)
 
     def __str__(self):
-        m = entry_stripper.match(ElementTree.tostring(self.et, "unicode"))
+        xml_str = ElementTree.tostring(self.et, "unicode")
+
+        # Remove CDATA wrappers
+        #xml_str = re.sub(r'<!\[CDATA\[(.*?)\]\]>', lambda m: m.group(1).replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;'), xml_str, flags=re.DOTALL)
+
+        m = entry_stripper.match(xml_str)
         if m:
-            return mark_safe(m.group(1))
+            return mark_safe(m.group(1)).replace('&lt;', '<').replace('&gt;', '>')
         else:
             return ""  # If we end up with <entry />
-
 
 @register.filter
 def resize_images_to_fit_width(value, arg):
