@@ -167,6 +167,14 @@ urlpatterns = [
     path("dashboard/", include(django_sql_dashboard.urls)),
     path("user-from-cookies/", blog_views.user_from_cookies),
     path("tags-autocomplete/", tag_views.tags_autocomplete),
+    re_path(
+        r'^article/using-hotwire-it-was-simple-to-build-inline-title-editing-10$',
+        lambda r: HttpResponsePermanentRedirect('/2023/May/17/using-hotwire-it-was-simple-to-build-inline-title-editing/')
+    ),
+    re_path(
+        r'^article/im-loving-rails-stimulus-check-out-this-example-9$',
+        lambda r: HttpResponsePermanentRedirect('/2024/Oct/16/im-loving-rails-stimulus-check-out-this-example/')
+    ),
 ] + djp.urlpatterns()
 if settings.DEBUG:
     try:
