@@ -169,7 +169,7 @@ urlpatterns = [
     path("tags-autocomplete/", tag_views.tags_autocomplete),
     re_path(
         r'^article/using-hotwire-it-was-simple-to-build-inline-title-editing-10$',
-        lambda r: HttpResponsePermanentRedirect('/2023/May/17/using-hotwire-it-was-simple-to-build-inline-title-editing/')
+        lambda r: HttpResponsePermanentRedirect('/2024/May/17/using-hotwire-it-was-simple-to-build-inline-title-editing/')
     ),
     re_path(
         r'^article/im-loving-rails-stimulus-check-out-this-example-9$',
