@@ -38,7 +38,7 @@ class XhtmlString(object):
 
         m = entry_stripper.match(xml_str)
         if m:
-            return mark_safe(m.group(1)).replace('&lt;', '<').replace('&gt;', '>')
+            return mark_safe(m.group(1)).replace('&lt;iframe', '<iframe').replace('&gt;&lt;/iframe&gt;', '></iframe>')
         else:
             return ""  # If we end up with <entry />
 
