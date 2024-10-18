@@ -17,7 +17,7 @@
     {% if item.obj.series and item.obj.series.title == "Today I Learned" %}
      💡 <a href="{{ item.obj.get_absolute_url }}" rel="bookmark">TIL: {{ item.obj.title|typography }}</a></h3>
     {% else %}
-     📄 <a href="{{ item.obj.get_absolute_url }}" rel="bookmark">{{ item.obj.title|typography }}</a></h3>
+     📝 <a href="{{ item.obj.get_absolute_url }}" rel="bookmark">{{ item.obj.title|typography }}</a></h3>
     {% endif %}
   {% if item.obj.card_image %}
     <div class="card-container">
