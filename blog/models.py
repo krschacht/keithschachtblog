@@ -259,7 +259,11 @@ class Entry(BaseModel):
         }
 
     def multi_paragraph(self):
-        return self.body.count("<p") > 1
+        try:
+            root = ElementTree.fromstring(f"<root>{self.body}</root>")
+            return len(root) > 2
+        except ElementTree.ParseError:
+            return False
 
     def __str__(self):
         return self.title
@@ -362,7 +366,11 @@ class Blogmark(BaseModel):
             return "%d words" % count
 
     def multi_paragraph(self):
-        return self.body().count("<p") > 1
+        try:
+            root = ElementTree.fromstring(f"<root>{self.body()}</root>")
+            return len(root) > 2
+        except ElementTree.ParseError:
+            return False
 
 class Photo(models.Model):
     flickr_id = models.CharField(max_length=32)
