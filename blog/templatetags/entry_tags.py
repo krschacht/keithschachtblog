@@ -87,12 +87,11 @@ def remove_context_paragraph(xhtml):
 
 @register.filter
 def first_paragraph(xhtml):
-    x = XhtmlString(xhtml)
-    p = x.et.find("p")
-    if p is not None:
-        return mark_safe(ElementTree.tostring(p, "unicode"))
-    else:
-        return mark_safe("<p>%s</p>" % xhtml)
+    xhtml_str = str(xhtml)
+    pattern = r'(<([a-z]+)[^>]*>.*?</\2>)'
+    matches = re.findall(pattern, xhtml_str, re.DOTALL | re.IGNORECASE)
+    result = ''.join(match[0] for match in matches[:2])
+    return mark_safe(result) if result else ""
 
 
 @register.filter

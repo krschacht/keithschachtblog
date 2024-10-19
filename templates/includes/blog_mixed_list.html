@@ -15,7 +15,7 @@
 <div class="entry segment" style="border-bottom: 0;">
   <h3 style="margin-top: 0; margin-bottom: 0.7em; font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 19px;">
     {% if item.obj.series and item.obj.series.title == "Today I Learned" %}
-     💡 <a href="{{ item.obj.get_absolute_url }}" rel="bookmark">TIL: {{ item.obj.title|typography }}</a></h3>
+     <span style="margin-left: -5px">💡</span> <a href="{{ item.obj.get_absolute_url }}" rel="bookmark">TIL: {{ item.obj.title|typography }}</a></h3>
     {% else %}
      📝 <a href="{{ item.obj.get_absolute_url }}" rel="bookmark">{{ item.obj.title|typography }}</a></h3>
     {% endif %}
