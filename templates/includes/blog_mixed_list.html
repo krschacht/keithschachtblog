@@ -57,7 +57,7 @@
 {% if item.type == "blogmark" %}
 <div class="blogmark segment" style="border-bottom: 0;">
   <p><span style="margin-top: 0; margin-bottom: 0.7em; line-height: 1.4; font-size: 19px;">🔗 <strong><a href="{{ item.obj.link_url }}">{{ item.obj.link_title|typography }}</a></strong>{% if item.obj.via_url %}
-    (<a href="{{ item.obj.via_url }}" title="{{ item.obj.via_title|typography }}">via {{ item.obj.via_title }}</a>) <a href="{{ item.obj.get_absolute_url }}" rel="bookmark">#</a>{% endif %}{% if not item.obj.via_url and not item.obj.link_title|ends_with_punctuation %}.{% endif %}</span>
+    (<a href="{{ item.obj.via_url }}" title="{{ item.obj.via_title|typography }}">via {{ item.obj.via_title }}</a>) <a href="{{ item.obj.get_absolute_url }}" rel="bookmark">#</a>{% else %} (<a href="{{ item.obj.get_absolute_url }}" rel="bookmark">#</a>){% endif %}{% if not item.obj.via_url and not item.obj.link_title|ends_with_punctuation %}.{% endif %}</span>
     {% if item.obj.multi_paragraph %}
       </p>
       <div id="first-paragraph-blogmark-{{ item.obj.id }}">
