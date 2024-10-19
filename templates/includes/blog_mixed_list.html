@@ -42,7 +42,12 @@
 <div class="blogmark segment" style="border-bottom: 0;">
   <p><span style="margin-top: 0; margin-bottom: 0.7em; line-height: 1.4; font-size: 19px;">🔗 <strong><a href="{{ item.obj.link_url }}">{{ item.obj.link_title|typography }}</a></strong>{% if item.obj.via_url %}
     (<a href="{{ item.obj.via_url }}" title="{{ item.obj.via_title|typography }}">via</a>){% endif %}{% if not item.obj.via_url and not item.obj.link_title|ends_with_punctuation %}.{% endif %}</span>
-    {% if not item.obj.use_markdown %}{{ item.obj.commentary|typography|linebreaks|strip_wrapping_p }}{% else %}{{ item.obj.body|strip_wrapping_p }}{% endif %}</p>
+    {% if item.obj.multi_paragraph %}
+      {% if not item.obj.use_markdown %}{{ item.obj.commentary|typography|linebreaks|first_paragraph|strip_wrapping_p }}{% else %}{{ item.obj.body|first_paragraph|strip_wrapping_p }}{% endif %}</p>
+      <div style="font-size: 0.9em; text-align: center; margin-top: -0.5em; margin-bottom: 0.9em">... <a href="{{ item.obj.get_absolute_url }}">View more</a></div>
+    {% else %}
+      {% if not item.obj.use_markdown %}{{ item.obj.commentary|typography|linebreaks|strip_wrapping_p }}{% else %}{{ item.obj.body|strip_wrapping_p }}{% endif %}</p>
+    {% endif %}
     <p class="date-and-tags" style="text-align: right; margin-bottom: 0;"><a href="{{ item.obj.get_absolute_url }}" rel="bookmark">#</a> <a style="text-decoration: none !important; border: 0; color: #000" href="/{{ item.obj.created|date:"Y/M/j/" }}">{{ item.obj.created|date:"m/d/y" }}</a>,
     {{ item.obj.created|date:"f A"|lower }}
     {% if all_tags %} / {% for tag in all_tags %}{{ tag.get_link }}{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}</p>

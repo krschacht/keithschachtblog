@@ -361,6 +361,8 @@ class Blogmark(BaseModel):
         else:
             return "%d words" % count
 
+    def multi_paragraph(self):
+        return self.body().count("<p") > 1
 
 class Photo(models.Model):
     flickr_id = models.CharField(max_length=32)
