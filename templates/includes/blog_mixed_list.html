@@ -15,9 +15,9 @@
 <div class="entry segment" style="border-bottom: 0;">
   <h3 style="margin-top: 0; margin-bottom: 0.7em; font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 19px;">
     {% if item.obj.series and item.obj.series.title == "Today I Learned" %}
-     <span style="margin-left: -5px">💡</span> <a href="{{ item.obj.get_absolute_url }}" rel="bookmark">TIL: {{ item.obj.title|typography }}</a></h3>
+     <span style="margin-left: -5px">💡</span> TIL: {{ item.obj.title|typography }} <a href="{{ item.obj.get_absolute_url }}" rel="bookmark">#</a></h3>
     {% else %}
-     📝 <a href="{{ item.obj.get_absolute_url }}" rel="bookmark">{{ item.obj.title|typography }}</a></h3>
+     📝 {{ item.obj.title|typography }} <a href="{{ item.obj.get_absolute_url }}" rel="bookmark">#</a></h3>
     {% endif %}
   {% if item.obj.card_image %}
     <div class="card-container">
@@ -25,15 +25,31 @@
     </div>
   {% endif %}
   <div>
-    {% if item.obj.multi_paragraph %}
-      {{ item.obj.body|split_cutoff|xhtml|remove_context_paragraph|first_paragraph|strip_links|typography|xhtml2html }}
-      <div style="font-size: 0.9em; text-align: center; margin-top: -0.5em; margin-bottom: 0.9em">... <a href="{{ item.obj.get_absolute_url }}">View more</a></div>
+    {% if item.obj.multi_paragraph or item.obj.updates.exists %}
+      <div id="first-paragraph-entry-{{ item.obj.id }}">
+        {{ item.obj.body|split_cutoff|xhtml|remove_context_paragraph|first_paragraph|strip_links|typography|xhtml2html }}
+      </div>
+      <div id="full-content-entry-{{ item.obj.id }}" style="display: none;">
+        {{ item.obj.body|xhtml|remove_context_paragraph|typography|xhtml2html }}
+      </div>
+      <div id="read-more-entry-{{ item.obj.id }}" style="font-size: 0.9em; text-align: center; margin-top: -0.5em; margin-bottom: 0.9em">
+        {% if item.obj.updates.exists %}
+          <a href="{{ item.obj.get_absolute_url }}">Read more ↗️</a>
+        {% else %}
+          <a href="#" onclick="
+            document.getElementById('first-paragraph-entry-{{ item.obj.id }}').style.display='none';
+            document.getElementById('full-content-entry-{{ item.obj.id }}').style.display='block';
+            document.getElementById('read-more-entry-{{ item.obj.id }}').style.display='none';
+            return false;
+          ">Read more ▾</a>
+        {% endif %}
+      </div>
     {% else %}
       {{ item.obj.body|split_cutoff|xhtml|remove_context_paragraph|first_paragraph|typography|xhtml2html }}
     {% endif %}
   </div>
   <div class="entryFooter" style="text-align: right; border-top: 0; padding-top: 0; margin-top: 0.5em">
-  {% entry_footer item.obj %}
+  <a href="{{ item.obj.get_absolute_url }}" rel="bookmark">#permalink</a> {% entry_footer item.obj %}
   </div>
 </div> <!-- end div.entry -->
 {% endif %}
@@ -41,24 +57,38 @@
 {% if item.type == "blogmark" %}
 <div class="blogmark segment" style="border-bottom: 0;">
   <p><span style="margin-top: 0; margin-bottom: 0.7em; line-height: 1.4; font-size: 19px;">🔗 <strong><a href="{{ item.obj.link_url }}">{{ item.obj.link_title|typography }}</a></strong>{% if item.obj.via_url %}
-    (<a href="{{ item.obj.via_url }}" title="{{ item.obj.via_title|typography }}">via</a>){% endif %}{% if not item.obj.via_url and not item.obj.link_title|ends_with_punctuation %}.{% endif %}</span>
+    (<a href="{{ item.obj.via_url }}" title="{{ item.obj.via_title|typography }}">via {{ item.obj.via_title }}</a>) <a href="{{ item.obj.get_absolute_url }}" rel="bookmark">#</a>{% endif %}{% if not item.obj.via_url and not item.obj.link_title|ends_with_punctuation %}.{% endif %}</span>
     {% if item.obj.multi_paragraph %}
-      {% if not item.obj.use_markdown %}{{ item.obj.commentary|typography|linebreaks|first_paragraph|strip_wrapping_p }}{% else %}{{ item.obj.body|first_paragraph|strip_wrapping_p }}{% endif %}</p>
-      <div style="font-size: 0.9em; text-align: center; margin-top: -0.5em; margin-bottom: 0.9em">... <a href="{{ item.obj.get_absolute_url }}">View more</a></div>
+      </p>
+      <div id="first-paragraph-blogmark-{{ item.obj.id }}">
+        {% if not item.obj.use_markdown %}{{ item.obj.commentary|typography|linebreaks|first_paragraph|strip_wrapping_p }}{% else %}{{ item.obj.body|first_paragraph|strip_wrapping_p }}{% endif %}
+      </div>
+      <div id="full-content-blogmark-{{ item.obj.id }}" style="display: none;">
+        {% if not item.obj.use_markdown %}{{ item.obj.commentary|typography|linebreaks|strip_wrapping_p }}{% else %}{{ item.obj.body|strip_wrapping_p }}{% endif %}
+      </div>
+      <div id="read-more-blogmark-{{ item.obj.id }}"
+        style="font-size: 0.9em; text-align: center; margin-top: -0.5em; margin-bottom: 0.9em">
+        <a href="#" onclick="
+          document.getElementById('first-paragraph-blogmark-{{ item.obj.id }}').style.display='none';
+          document.getElementById('full-content-blogmark-{{ item.obj.id }}').style.display='block';
+          document.getElementById('read-more-blogmark-{{ item.obj.id }}').style.display='none';
+          return false;
+        ">Read more ▾</a>
+      </div>
     {% else %}
       {% if not item.obj.use_markdown %}{{ item.obj.commentary|typography|linebreaks|strip_wrapping_p }}{% else %}{{ item.obj.body|strip_wrapping_p }}{% endif %}</p>
     {% endif %}
-    <p class="date-and-tags" style="text-align: right; margin-bottom: 0;"><a href="{{ item.obj.get_absolute_url }}" rel="bookmark">#</a> <a style="text-decoration: none !important; border: 0; color: #000" href="/{{ item.obj.created|date:"Y/M/j/" }}">{{ item.obj.created|date:"m/d/y" }}</a>,
+    <p class="date-and-tags" style="text-align: right; margin-bottom: 0;"><a href="{{ item.obj.get_absolute_url }}" rel="bookmark">#permalink</a> <a style="text-decoration: none !important; border: 0; color: #000" href="/{{ item.obj.created|date:"Y/M/j/" }}">{{ item.obj.created|date:"m/d/y" }}</a>,
     {{ item.obj.created|date:"f A"|lower }}
     {% if all_tags %} / {% for tag in all_tags %}{{ tag.get_link }}{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}</p>
 </div>
 {% endif %}
 {% if item.type == "quotation" %}
 <div class="quote segment" style="border-bottom: 0;">
-<h3 class="cite" style="margin-top: 0; margin-bottom: 0.7em; line-height: 1.4; font-size: 19px;">💬 {% if item.obj.source_url %}<a href="{{ item.obj.source_url }}">from {{ item.obj.source }}</a>{% else %}{{ item.obj.source }}{% endif %}{% if item.obj.context %}, <span class="context">{{ item.obj.context_rendered }}{% endif %}</span></h3>
+<h3 class="cite" style="margin-top: 0; margin-bottom: 0.7em; line-height: 1.4; font-size: 19px;">💬 {% if item.obj.source_url %}from {{ item.obj.source }} (<a href="{{ item.obj.source_url }}">via</a>){% else %}{{ item.obj.source }}{% endif %}{% if item.obj.context %}, <span class="context">{{ item.obj.context_rendered }}{% endif %}</span> <a href="{{ item.obj.get_absolute_url }}" rel="bookmark">#</a></h3>
   <blockquote style="margin-top: 0;" {% if item.obj.source_url %} cite="{{ item.obj.source_url }}"{% endif %}>{{ item.obj.body }}</blockquote>
   <p class="date-and-tags" style="text-align: right; margin-bottom: 0;">
-    <a href="{{ item.obj.get_absolute_url }}" rel="bookmark">#</a>
+    <a href="{{ item.obj.get_absolute_url }}" rel="bookmark">#permalink</a>
     <a style="text-decoration: none !important; border: 0; color: #000" href="/{{ item.obj.created|date:"Y/M/j/" }}">{{ item.obj.created|date:"m/d/y" }}</a>,
     {{ item.obj.created|date:"f A"|lower }}
     {% if all_tags %} / {% for tag in all_tags %}{{ tag.get_link }}{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}
