@@ -86,7 +86,11 @@
 {% if item.type == "quotation" %}
 <div class="quote segment" style="border-bottom: 0;">
 <h3 class="cite" style="margin-top: 0; margin-bottom: 0.7em; line-height: 1.4; font-size: 19px;">💬 {% if item.obj.source_url %}from {{ item.obj.source }} (<a href="{{ item.obj.source_url }}">via</a>){% else %}{{ item.obj.source }}{% endif %}{% if item.obj.context %}, <span class="context">{{ item.obj.context_rendered }}{% endif %}</span> <a href="{{ item.obj.get_absolute_url }}" rel="bookmark">#</a></h3>
-  <blockquote style="margin-top: 0;" {% if item.obj.source_url %} cite="{{ item.obj.source_url }}"{% endif %}>{{ item.obj.body }}</blockquote>
+  {% if item.obj.contains_commentary %}
+    {{ item.obj.body }}
+  {% else %}
+    <blockquote style="margin-top: 0;">{{ item.obj.body }}</blockquote>
+  {% endif %}
   <p class="date-and-tags" style="text-align: right; margin-bottom: 0;">
     <a href="{{ item.obj.get_absolute_url }}" rel="bookmark">#permalink</a>
     <a style="text-decoration: none !important; border: 0; color: #000" href="/{{ item.obj.created|date:"Y/M/j/" }}">{{ item.obj.created|date:"m/d/y" }}</a>,

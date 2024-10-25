@@ -319,6 +319,9 @@ class Quotation(BaseModel):
             "C": self.source,
         }
 
+    def contains_commentary(self):
+        return ">" in f"{self.body}"
+
     def __str__(self):
         return self.body_strip_tags()
 

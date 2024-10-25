@@ -9,7 +9,11 @@
 {% block item_content %}
 <div class="quote">
 {% include "_draft_warning.html" %}
-<blockquote{% if quotation.source_url %} cite="{{ quotation.source_url }}"{% endif %}>{{ quotation.body }}</blockquote>
+{% if quotation.contains_commentary %}
+  {{ quotation.body }}
+{% else %}
+  <blockquote style="margin-top: 0;">{{ quotation.body }}</blockquote>
+{% endif %}
 <p class="cite">&mdash; {% if quotation.source_url %}<a href="{{ quotation.source_url }}">{{ quotation.source }}</a>{% else %}{{ quotation.source }}{% endif %}{% if quotation.context %}, <span class="context">{{ quotation.context_rendered }}</span>{% endif %}</p>
 </div>
 
