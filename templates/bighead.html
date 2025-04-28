@@ -13,11 +13,16 @@
     </nav>
   </div>
   <div class="h1-nav-wrapper">
-    <p style="display: block; padding-bottom: 1em">I'm a builder, entrepreneur, and investor. I've started many companies and sold a few. My first was in college; I sold it my junior year and dropped...  <a href="/about/" style="color: #0303bb !important">more</a>
+    <p style="display: block; padding-bottom: 1em">
+      I'm one part inventor, one part explainer, and one part entrepreneur.
+      I post regularly on
+      <a href="https://www.youtube.com/@keith-schacht">YouTube</a>,
+      <a href="https://www.instagram.com/keith__schacht">Instagram</a>, and
+      <a href="https://www.tiktok.com/@keith_schacht">TikTok</a>. I've started many... <a href="/about/" style="color: #0303bb !important">more</a>
   </p>
   </div>
   <div id="bigheadcontainer">
-  {% if current_tags %}<p id="currenttags">On {% for tag in current_tags %}<a href="/tags/{{ tag }}/" class="item-tag">{{ tag }} <span>{{ tag.total_count }}</span></a> {% endfor %}<a href="/tags/" class="more">...</a></p>{% else %}<a href="/tags/">Tags...</a>{% endif %}
+  {% if current_tags %}<p id="currenttags">View tag {% for tag in current_tags %}<a href="/tags/{{ tag }}/" class="item-tag">{{ tag }} <span>{{ tag.total_count }}</span></a> {% endfor %}<a href="/tags/" class="more">...</a></p>{% else %}<a href="/tags/">Tags...</a>{% endif %}
   <form action="/search/" method="GET"><div>
     <input type="search" placeholder="Search this site" class="search-input" name="q" value="" style="max-width: 560px; margin-top: 0.5em">
     <input type="submit" class="search-submit" value="Search">
